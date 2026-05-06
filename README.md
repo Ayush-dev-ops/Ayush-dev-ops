@@ -2,8 +2,8 @@
 
 Full-stack engineer. I build products end-to-end and ship them to real users.
 
-**Stack:** React · Node.js · Express · MySQL · Laravel · TypeScript · Tailwind  
-**Available:** Full-time from June 2026 · Remote · IST (UTC+5:30)
+**Stack:** React · Node.js · Express · MySQL · Laravel · TypeScript · Tailwind . java . python
+
 
 ---
 
