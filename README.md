@@ -35,7 +35,7 @@ I build software that has to keep working once real people start using it: edito
 
 I'm a full-stack engineer with a B.Tech in Computer Science, specialising in AI & ML, from GL Bajaj (2022–2026). Most of my work spans the whole stack: React and Next.js on the front, Node.js, Express and Python services behind them, and data models in MongoDB or PostgreSQL that don't need rewriting three months later.
 
-I co-founded **Voxel3**, a small product and engineering team, and take on freelance builds for clients who need something live rather than a demo. My main project, **CodeX**, is a collaborative interview platform with sub-100 ms sync built on Operational Transformation and a Docker sandbox that runs four languages.
+I co-founded **Voxel3**, a product and engineering studio, and take on freelance builds for clients who need something live rather than a demo. My main project, **CodeX**, is a collaborative interview platform with sub-100 ms sync built on Operational Transformation and a Docker sandbox that runs four languages.
 
 The parts I care about most are the ones nobody notices when they're done well: clean API boundaries, auth that is actually enforced on the server, schemas that survive the next feature, and interfaces that stay smooth on slow hardware. On the AI side I work with LLM APIs, prompt design and retrieval pipelines, and I'm currently going deeper into agents and AI security.
 
@@ -109,56 +109,60 @@ The parts I care about most are the ones nobody notices when they're done well: 
 <summary><b>CodeX</b> &nbsp;·&nbsp; Real-Time Collaborative Coding &amp; Interview Platform</summary>
 <br/>
 
-A shared coding room for technical interviews. Interviewer and candidate work in the same Monaco editor and run code against a sandboxed backend, instead of pasting snippets into a doc.
+A browser-based technical interview environment where interviewer and candidate share one live editor, one execution sandbox and one source of truth. It runs on a custom Operational Transformation engine and an isolated, multi-language code runner.
 
 | Dimension | Details |
 |:--|:--|
 | **Stack** | Next.js · React · Node.js · WebSocket · ConvexDB · Docker · Monaco Editor |
-| **Scale** | 100+ concurrent users across live interview rooms |
-| **Performance** | Sub-100 ms code sync between participants |
-| **Security** | JWT auth, interviewer / candidate RBAC, resource-limited execution containers |
-| **Impact** | One shared editor with a built-in runner replaces the paste-and-screen-share interview loop |
+| **Scale** | 100+ concurrent users across isolated interview rooms |
+| **Performance** | Sub-100 ms end-to-end sync of concurrent edits with guaranteed document convergence |
+| **Security** | JWT auth, interviewer / candidate RBAC, ephemeral Docker sandboxes with hard CPU, memory and wall-clock limits |
+| **Impact** | Collapses the editor, the runner and the interview workflow into a single real-time surface |
 | **Repository** | Source private · [Live](https://code-x-interview-platform.vercel.app) |
 
-Concurrent edits are the hard part of a shared editor. CodeX sends each change as an operation over WebSockets and transforms it against whatever the other person typed at the same moment, so both editors converge on the same document without locking anyone out. Code runs in short-lived Docker containers for Python, Java, C++ and JavaScript under strict CPU, memory and time limits, which keeps a runaway loop away from the host and from other rooms. Room management and role checks live on the server, so permissions can't be changed from the client.
+Every keystroke is modelled as an operation, versioned against server state and broadcast over a persistent WebSocket channel. When two edits collide, the OT layer transforms one against the other before applying it, so every client converges on an identical document with no locks and no last-write-wins data loss.
+
+Execution is decoupled from the collaboration path. A submission goes to a sandbox service that starts a short-lived, language-specific container for Python, Java, C++ or JavaScript, enforces resource ceilings, returns stdout and stderr, and tears the container down. Room state, roles and permissions are authoritative on the server, so a client can render the interview but never rewrite its rules.
 
 </details>
 
 <details>
-<summary><b>Creator Fan Engagement Platform</b> &nbsp;·&nbsp; Paid Client Project</summary>
+<summary><b>Creator Platform</b> &nbsp;·&nbsp; Real-Time Fan Messaging &amp; Monetisation &nbsp;·&nbsp; Paid Client</summary>
 <br/>
 
-A live platform for an Instagram creator to offer paid access, talk to fans directly and run the whole operation from one dashboard.
+A production platform that lets a creator monetise her audience directly: paid fan access, two-way real-time messaging between fans and the creator, and an operations console, on an architecture built to absorb sudden traffic surges from Instagram.
 
 | Dimension | Details |
 |:--|:--|
 | **Stack** | React · Node.js · Express · MongoDB · Razorpay · WhatsApp OTP |
-| **Scale** | Production deployment serving the creator's fan community |
-| **Performance** | Mobile-first React UI tuned for fans arriving from Instagram on their phones |
-| **Security** | WhatsApp OTP login, JWT-secured REST APIs, server-side payment verification |
-| **Impact** | Gave the creator a paid channel to her audience that she owns and runs herself |
+| **Scale** | Engineered for burst traffic, when large waves of fans arrive the moment the creator posts |
+| **Performance** | Stateless, horizontally scalable API layer keeps two-way chat responsive under concurrent load |
+| **Security** | WhatsApp OTP identity, JWT-scoped access per fan, server-side Razorpay signature verification before any entitlement changes |
+| **Impact** | Turned a social following into a direct, creator-owned revenue and engagement channel |
 | **Repository** | Private (client work) · [Live](https://theankitasingh.com) |
 
-Most fans land from Instagram on a phone, so login had to be one step: a WhatsApp OTP instead of a password. Payments go through Razorpay and are confirmed on the server before any access changes, which keeps subscription state correct even if the browser drops mid-checkout. Users, subscriptions, payments and messages are modelled separately in MongoDB behind JWT-protected Express routes, and the admin dashboard gives the creator one place to manage fans, payments and content.
+At its core is a bidirectional messaging system between one creator and a large, paying fan base. Each conversation is bound to a verified fan and gated by an active subscription, so access control is enforced on every message path rather than at the page level.
+
+Identity is phone-first: fans authenticate through a WhatsApp OTP flow, receive a signed JWT, and every API call is authorised against that token on the server. Payments run through Razorpay, and entitlements change only after the server verifies the payment signature, which keeps subscription state consistent even when a checkout is abandoned or retried. Users, subscriptions, payments and messages sit in separate MongoDB collections behind a modular Express service layer, and the admin console gives the creator one place to run fans, revenue and content.
 
 </details>
 
 <details>
-<summary><b>ZenTask</b> &nbsp;·&nbsp; Team Task Management Platform</summary>
+<summary><b>ZenTask</b> &nbsp;·&nbsp; Team Workflow &amp; Task Orchestration Platform</summary>
 <br/>
 
-A full-stack task manager for teams: projects, Kanban boards and task tracking in one dark, focused interface.
+A multi-user project and task orchestration platform for teams, with Kanban workflows, role-scoped permissions and live board state shared across every member.
 
 | Dimension | Details |
 |:--|:--|
 | **Stack** | React · Node.js · Express · MySQL · JWT |
-| **Scale** | Team workspaces with projects, boards and per-task status tracking |
-| **Performance** | Board changes reach the whole team in real time |
-| **Security** | JWT auth with role-based access control on every protected route |
-| **Impact** | One place for a team to plan, assign and track work without status meetings |
+| **Scale** | Multi-team workspaces with projects, boards and per-task lifecycle tracking |
+| **Performance** | Board mutations propagate to every connected teammate in real time |
+| **Security** | JWT authentication with role-based authorisation enforced at the API layer |
+| **Impact** | A single source of truth for planning, assignment and delivery across a team |
 | **Repository** | [ZenTask_full_stack](https://github.com/Ayush-dev-ops/ZenTask_full_stack) · [Live](https://zen-task-full-stack.vercel.app) |
 
-Tasks move across the board with drag-and-drop, and each move is persisted through the Express API so the board stays the same for everyone looking at it. Roles decide who can create projects, assign work and change status, and those checks run on the server rather than only in the UI.
+Every drag-and-drop on the board is a state transition. The client sends it to the Express API, which validates it against the user's role, persists it to a relational MySQL schema and reflects the new board state for the rest of the team. Roles govern who can create projects, assign work and move tasks between stages, and those rules live on the server, so the interface can't be used to bypass them.
 
 </details>
 
@@ -166,18 +170,18 @@ Tasks move across the board with drag-and-drop, and each move is persisted throu
 <summary><b>Stockpile</b> &nbsp;·&nbsp; Inventory &amp; Order Management System</summary>
 <br/>
 
-A full-stack system for tracking products, customers and orders, built end to end on a fixed stack.
+A full-stack inventory and order management system covering the complete lifecycle, from product catalogue and stock levels to customers and fulfilled orders, built on a typed Python API and a relational core.
 
 | Dimension | Details |
 |:--|:--|
 | **Stack** | React · FastAPI · PostgreSQL · Docker |
-| **Scale** | Products, customers and the full order lifecycle in one system |
-| **Performance** | Async FastAPI endpoints over a normalised PostgreSQL schema |
-| **Security** | Typed request validation at the API boundary with Pydantic models |
-| **Impact** | A clean, working inventory and order flow delivered under a strict stack brief |
+| **Scale** | End-to-end lifecycle across products, inventory, customers and orders |
+| **Performance** | Async FastAPI request handling over a normalised PostgreSQL schema |
+| **Security** | Schema-validated requests through Pydantic models at every API boundary |
+| **Impact** | Production-grade inventory workflow delivered under a fixed-stack brief |
 | **Repository** | [Stockpile](https://github.com/Ayush-dev-ops/Stockpile) · [Live](https://stockpile-sandy.vercel.app) |
 
-The brief locked the stack, so the work was about using it well. FastAPI handles typed validation and async endpoints, PostgreSQL holds products, customers and orders in a normalised relational schema, and the whole system is containerised with Docker so anyone can run it locally without setup.
+The backend treats inventory as relational data first. Products, stock, customers and orders are modelled in a normalised PostgreSQL schema with versioned migrations, so the data model can evolve without breaking what is already stored. FastAPI exposes async endpoints with Pydantic contracts that reject malformed input before it reaches business logic, and the whole stack is containerised with Docker so the same environment runs locally and in deployment.
 
 </details>
 
@@ -185,18 +189,18 @@ The brief locked the stack, so the work was about using it well. FastAPI handles
 <summary><b>Voxel3</b> &nbsp;·&nbsp; Tech Solutions Platform &nbsp;·&nbsp; Co-founder &amp; Team Lead</summary>
 <br/>
 
-The public platform for Voxel3, the product and engineering team I co-founded. It presents our services and client work through interactive 3D scenes without letting the 3D slow the site down.
+The digital platform for Voxel3, the product and engineering studio I co-founded. It pairs real-time 3D scenes with a modular service backend that powers the studio's client pipeline.
 
 | Dimension | Details |
 |:--|:--|
 | **Stack** | React · Node.js · Express · MongoDB · Tailwind CSS · Spline |
-| **Scale** | 3-member team; portfolio of client and product builds |
-| **Performance** | Lazy-loaded Spline scenes and compressed assets keep the landing page responsive |
-| **Security** | Server-side request handling through a modular service layer separating routing and data access |
-| **Impact** | Front door for Voxel3's client pipeline and project showcase |
+| **Scale** | Team-driven delivery across client and product engagements |
+| **Performance** | Viewport-triggered loading of Spline scenes and compressed assets keep 3D smooth on mid-range devices |
+| **Security** | Layered Express architecture separating routing, validation and persistence |
+| **Impact** | Front door for Voxel3's client acquisition and project showcase |
 | **Repository** | [Live](https://voxel3.netlify.app) |
 
-3D on the web is easy to overdo. Spline scenes load only when they scroll into view and assets are compressed before deploy, so the site stays smooth on mid-range phones. Behind it, a Node.js and Express service layer over MongoDB keeps routing, business logic and persistence apart, which let a three-person team work in parallel without stepping on each other.
+Heavy 3D is the fastest way to ruin a landing page, so scenes stream in only when they enter the viewport and every asset is compressed before deploy. The backend follows a layered service architecture over MongoDB, with routing, business logic and persistence kept strictly apart, which lets the team ship features in parallel without stepping on each other.
 
 </details>
 
@@ -208,38 +212,33 @@ The public platform for Voxel3, the product and engineering team I co-founded. I
 
 | Recognition | Details |
 |:--|:--|
-| **Co-founder & Team Lead, Voxel3** | Leads a three-person team delivering web and product builds for clients |
-| **Live Paid Client Platform** | Shipped a production platform with payments, OTP login and private chat for an Instagram creator |
+| **Co-founder & Team Lead, Voxel3** | Leads the Voxel3 team, shipping client and product builds end to end |
+| **Creator Platform (Paid Client)** | Shipped a production creator platform with real-time two-way fan messaging, OTP identity and integrated payments |
 | **CodeX Real-Time Engine** | Sub-100 ms collaborative sync with 100+ concurrent users on WebSockets and OT |
-| **Production Deployments** | CodeX, ZenTask, Stockpile and the creator platform are all live and in use |
+| **Production Deployments** | CodeX, ZenTask, Stockpile and the Creator Platform are all live and in use |
 | **Freelance Full Stack Developer** | End-to-end builds for clients on Fiverr and through direct engagements |
 
 </div>
 
 ---
 
-<h2 align="center">GitHub Analytics</h2>
+<h2 align="center">Architecture Spotlight</h2>
 
-<div align="center">
+<p align="center"><i>How a single keystroke and a single code run move through CodeX</i></p>
 
-<a href="https://github.com/Ayush-dev-ops"><img height="175" src="https://github-readme-stats.vercel.app/api?username=Ayush-dev-ops&show_icons=true&include_all_commits=true&count_private=true&rank_icon=github&hide_border=true&bg_color=0D1117&title_color=A78BFA&icon_color=8B5CF6&text_color=C9D1D9&ring_color=7C3AED" alt="GitHub stats" /></a>
-<a href="https://github.com/Ayush-dev-ops?tab=repositories"><img height="175" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ayush-dev-ops&layout=compact&langs_count=8&hide_border=true&bg_color=0D1117&title_color=A78BFA&text_color=C9D1D9" alt="Top languages" /></a>
-
-<br/>
-
-<a href="https://github.com/Ayush-dev-ops"><img src="https://streak-stats.demolab.com?user=Ayush-dev-ops&hide_border=true&background=0D1117&ring=7C3AED&fire=A78BFA&currStreakNum=FFFFFF&currStreakLabel=A78BFA&sideNums=FFFFFF&sideLabels=C9D1D9&dates=8B949E&stroke=2E1065" alt="GitHub streak" /></a>
-
-</div>
-
----
-
-<h2 align="center">GitHub Trophies</h2>
-
-<div align="center">
-
-<a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-trophies.vercel.app/?username=Ayush-dev-ops&theme=dracula&no-frame=true&no-bg=true&row=1&column=7&margin-w=8" alt="GitHub trophies" /></a>
-
-</div>
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': {'primaryColor': '#1e1b4b', 'primaryTextColor': '#ede9fe', 'primaryBorderColor': '#7c3aed', 'lineColor': '#a78bfa', 'secondaryColor': '#2e1065', 'tertiaryColor': '#0f0c29', 'edgeLabelBackground': '#1e1b4b', 'fontSize': '14px'}}}%%
+flowchart LR
+    I["Interviewer"] -->|edit ops| G
+    C["Candidate"] -->|edit ops| G
+    G["WebSocket Gateway<br/>JWT · RBAC"] --> OT["OT Engine<br/>transform · version"]
+    OT -->|converged doc| G
+    OT --> DB[("ConvexDB<br/>rooms · documents")]
+    C -->|run| X["Execution Service"]
+    X --> S["Docker Sandbox<br/>Python · Java · C++ · JS"]
+    S -->|stdout · stderr| X
+    X -->|result| G
+```
 
 ---
 
