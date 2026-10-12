@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:7c3aed&height=230&section=header&text=Ayush%20Bhardwaj&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Full%20Stack%20Engineer%20%C2%B7%20AI%20%26%20ML%20%C2%B7%20Real-Time%20Systems&descSize=18&descAlignY=60&animation=fadeIn" width="100%" alt="Ayush Bhardwaj" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f0c29,50:302b63,100:7c3aed&height=230&section=header&text=Ayush%20Bhardwaj&fontSize=60&fontColor=ffffff&fontAlignY=38&desc=Full%20Stack%20Engineer%20%C2%B7%20AI%20and%20ML%20%C2%B7%20Real-Time%20Systems&descSize=18&descAlignY=60&animation=fadeIn" width="100%" alt="Ayush Bhardwaj" />
 
 <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=500&size=20&duration=3200&pause=900&color=A78BFA&center=true&vCenter=true&width=720&lines=Full+Stack+Engineer+%E2%80%94+React%2C+Next.js%2C+Node.js;Real-Time+Systems+%C2%B7+WebSockets+%C2%B7+OT+Sync;GenAI+%C2%B7+LLM+Integration+%C2%B7+RAG+Pipelines;Co-founder+%40+Voxel3;Building+products+that+hold+up+in+production" alt="Typing SVG" /></a>
 
@@ -21,7 +21,7 @@
 
 <br/><br/>
 
-<img src="https://komarev.com/ghpvc/?username=Ayush-dev-ops&label=Profile%20Views&color=7c3aed&style=flat-square" alt="Profile views" />
+<img src="https://api.visitorbadge.io/api/visitors?path=Ayush-dev-ops&label=Profile%20Views&labelColor=%231E1B4B&countColor=%237C3AED&style=flat-square" alt="Profile views" />
 <a href="https://github.com/Ayush-dev-ops?tab=followers"><img src="https://img.shields.io/github/followers/Ayush-dev-ops?label=Followers&style=flat-square&logo=github&logoColor=white&color=6366F1&labelColor=1E1B4B" alt="Followers" /></a>
 <a href="https://github.com/Ayush-dev-ops?tab=repositories&sort=stargazers"><img src="https://img.shields.io/github/stars/Ayush-dev-ops?affiliations=OWNER&label=Stars&style=flat-square&logo=github&logoColor=white&color=8B5CF6&labelColor=1E1B4B" alt="Stars" /></a>
 
@@ -237,7 +237,7 @@ The public platform for Voxel3, the product and engineering team I co-founded. I
 
 <div align="center">
 
-<a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=Ayush-dev-ops&theme=dracula&no-frame=true&no-bg=true&row=1&column=7&margin-w=8" alt="GitHub trophies" /></a>
+<a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-trophies.vercel.app/?username=Ayush-dev-ops&theme=dracula&no-frame=true&no-bg=true&row=1&column=7&margin-w=8" alt="GitHub trophies" /></a>
 
 </div>
 
@@ -247,7 +247,7 @@ The public platform for Voxel3, the product and engineering team I co-founded. I
 
 <div align="center">
 
-<a href="https://github.com/Ayush-dev-ops"><img src="https://github-readme-activity-graph.vercel.app/graph?username=Ayush-dev-ops&bg_color=0D1117&color=A78BFA&title_color=A78BFA&line=7C3AED&point=C4B5FD&area=true&area_color=7C3AED&hide_border=true&radius=6&custom_title=Contribution%20Activity" width="100%" alt="Contribution activity graph" /></a>
+<a href="https://github.com/Ayush-dev-ops"><img src="https://ghchart.rshah.org/7c3aed/Ayush-dev-ops" width="100%" alt="Contribution activity graph" /></a>
 
 </div>
 
